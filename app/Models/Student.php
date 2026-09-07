@@ -2,32 +2,49 @@
 
 namespace App\Models;
 
+use Database\Factories\StudentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    /** @use HasFactory<StudentFactory> */
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
+        'student_number',
         'first_name',
+        'middle_name',
         'last_name',
-        'email',
-        'program',
         'gender',
-        'birthday',
-        'yr_level',
+        'birth_date',
+        'address',
+        'phone',
+        'email',
+        'guardian_name',
+        'guardian_phone',
+        'status',
     ];
 
-    protected $casts = [
-        'birthday' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'birth_date' => 'date:Y-m-d',
+        ];
+    }
 
     protected $appends = [
-        'age'
+        'full_name',
     ];
 
-    public function getAgeAttribute (){
-        return $this->birthday?->age;
+    public function getFullNameAttribute(): string
+    {
+        $parts = array_filter([
+            $this->first_name,
+            $this->middle_name,
+            $this->last_name,
+        ]);
+
+        return implode(' ', $parts);
     }
 }

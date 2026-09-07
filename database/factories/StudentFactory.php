@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class StudentFactory extends Factory
 {
+    protected static int $studentSequence = 1;
+
     /**
      * Define the model's default state.
      *
@@ -17,24 +19,39 @@ class StudentFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'first_name'=> fake()->name(),
-            'last_name'=> fake()->name(),
-            'email'=> fake()->unique()->safeEmail(),
-            'program'=> fake()->randomElement([
-                'BSIT',
-                'BSCS',
-                'BSIS'
-            ]),
-             'gender' => fake()->randomElement([
-                'female',
-                'male'
+        $gender = fake()->randomElement(['Male', 'Female']);
+        $maleFirstNames = ['Juan', 'Jose', 'Mark', 'Angelo', 'John', 'Joshua', 'Christian', 'Daniel', 'Miguel', 'Carlo', 'Gabriel', 'Rafael'];
+        $femaleFirstNames = ['Maria', 'Christine', 'Princess', 'Nicole', 'Patricia', 'Angelica', 'Bea', 'Alyssa', 'Camille', 'Jasmine', 'Katherine'];
+        $middleNames = ['Santos', 'Reyes', 'Garcia', 'Ramos', 'Mendoza', 'Flores', 'Cruz', 'Bautista', 'Gonzales', 'Rivera', 'Castro'];
+        $lastNames = ['Dela Cruz', 'Santos', 'Reyes', 'Garcia', 'Ramos', 'Mendoza', 'Flores', 'Bautista', 'Gonzales', 'Rivera', 'Aquino', 'Tolentino'];
 
-             ]),
-             'birthday' => fake()
-             ->dateTimeBetween('-25 years', '-17 years')
-             ->format('Y-m-d'),
-            'yr_level' => fake() ->numberBetween(1,4),
+        $firstName = $gender === 'Male'
+            ? fake()->randomElement($maleFirstNames)
+            : fake()->randomElement($femaleFirstNames);
+        $middleName = fake()->randomElement($middleNames);
+        $lastName = fake()->randomElement($lastNames);
+
+        $studentNumber = sprintf('2026-%04d', static::$studentSequence++);
+
+        $cities = ['Manila', 'Quezon City', 'Makati', 'Taguig', 'Pasig', 'Caloocan', 'Cebu City', 'Davao City'];
+        $city = fake()->randomElement($cities);
+
+        $guardianFirstNames = ['Maria', 'Elena', 'Teresa', 'Rosa', 'Roberto', 'Antonio', 'Eduardo', 'Ricardo'];
+        $guardianName = fake()->randomElement($guardianFirstNames).' '.$lastName;
+
+        return [
+            'student_number' => $studentNumber,
+            'first_name' => $firstName,
+            'middle_name' => $middleName,
+            'last_name' => $lastName,
+            'gender' => $gender,
+            'birth_date' => fake()->dateTimeBetween('-24 years', '-17 years')->format('Y-m-d'),
+            'address' => fake()->buildingNumber().' '.fake()->streetName().', '.$city,
+            'phone' => '09'.fake()->numerify('#########'),
+            'email' => strtolower($firstName.'.'.str_replace(' ', '', $lastName).fake()->numerify('##')).'@example.com',
+            'guardian_name' => $guardianName,
+            'guardian_phone' => '09'.fake()->numerify('#########'),
+            'status' => fake()->randomElement(['Active', 'Active', 'Active', 'Inactive']),
         ];
     }
 }
