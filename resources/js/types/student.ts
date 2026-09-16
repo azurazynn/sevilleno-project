@@ -7,6 +7,8 @@ export interface Student {
     full_name?: string;
     gender: 'Male' | 'Female' | 'Other';
     birth_date: string;
+    course: string;
+    year_level: string;
     address?: string | null;
     phone?: string | null;
     email?: string | null;
@@ -15,6 +17,16 @@ export interface Student {
     status: 'Active' | 'Inactive';
     created_at: string;
     updated_at: string;
+}
+
+export interface CourseCount {
+    course: string;
+    count: number;
+}
+
+export interface YearLevelCount {
+    year_level: string;
+    count: number;
 }
 
 export interface PaginatedData<T> {
@@ -31,4 +43,3 @@ export interface PaginatedData<T> {
         active: boolean;
     }[];
 }
-

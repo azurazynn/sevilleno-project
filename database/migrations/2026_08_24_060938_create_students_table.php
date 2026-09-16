@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('gender');
             $table->date('birth_date');
+            $table->string('course');
+            $table->string('year_level');
             $table->text('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();

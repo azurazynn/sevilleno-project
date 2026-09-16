@@ -25,7 +25,9 @@ class StudentController extends Controller
                         ->orWhere('first_name', 'like', "%{$search}%")
                         ->orWhere('middle_name', 'like', "%{$search}%")
                         ->orWhere('last_name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('course', 'like', "%{$search}%")
+                        ->orWhere('year_level', 'like', "%{$search}%");
                 });
             })
             ->latest()
@@ -60,6 +62,8 @@ class StudentController extends Controller
             'last_name' => ['required', 'string', 'max:100'],
             'gender' => ['required', 'string', Rule::in(['Male', 'Female', 'Other'])],
             'birth_date' => ['required', 'date', 'before:today'],
+            'course' => ['required', 'string', 'max:100'],
+            'year_level' => ['required', 'string', 'max:50'],
             'address' => ['nullable', 'string', 'max:500'],
             'phone' => ['nullable', 'string', 'max:25'],
             'email' => ['nullable', 'email', 'max:255'],
@@ -110,6 +114,8 @@ class StudentController extends Controller
             'last_name' => ['required', 'string', 'max:100'],
             'gender' => ['required', 'string', Rule::in(['Male', 'Female', 'Other'])],
             'birth_date' => ['required', 'date', 'before:today'],
+            'course' => ['required', 'string', 'max:100'],
+            'year_level' => ['required', 'string', 'max:50'],
             'address' => ['nullable', 'string', 'max:500'],
             'phone' => ['nullable', 'string', 'max:25'],
             'email' => ['nullable', 'email', 'max:255'],

@@ -118,6 +118,8 @@ class StudentTest extends TestCase
             'last_name' => 'Dela Cruz',
             'gender' => 'Male',
             'birth_date' => '2005-04-12',
+            'course' => 'BS Information Technology',
+            'year_level' => '1st Year',
             'address' => '123 Rizal Street, Manila',
             'phone' => '09171234567',
             'email' => 'juan.delacruz@example.com',
@@ -135,6 +137,8 @@ class StudentTest extends TestCase
             'student_number' => '2026-5555',
             'first_name' => 'Juan',
             'last_name' => 'Dela Cruz',
+            'course' => 'BS Information Technology',
+            'year_level' => '1st Year',
             'guardian_name' => 'Maria Dela Cruz',
         ]);
     }
@@ -149,6 +153,8 @@ class StudentTest extends TestCase
             'last_name',
             'gender',
             'birth_date',
+            'course',
+            'year_level',
             'guardian_name',
             'guardian_phone',
             'status',
@@ -223,6 +229,8 @@ class StudentTest extends TestCase
             'last_name' => $student->last_name,
             'gender' => $student->gender,
             'birth_date' => $student->birth_date->format('Y-m-d'),
+            'course' => 'BS Computer Science',
+            'year_level' => '2nd Year',
             'address' => 'Updated Address',
             'phone' => '09999999999',
             'email' => 'updated@example.com',
@@ -237,6 +245,8 @@ class StudentTest extends TestCase
         $this->assertDatabaseHas('students', [
             'id' => $student->id,
             'first_name' => 'Updated',
+            'course' => 'BS Computer Science',
+            'year_level' => '2nd Year',
             'status' => 'Inactive',
             'address' => 'Updated Address',
         ]);
@@ -256,7 +266,7 @@ class StudentTest extends TestCase
         ]);
     }
 
-    public function test_dashboard_displays_real_total_students_and_recent_students(): void
+    public function test_dashboard_displays_real_total_students_and_charts(): void
     {
         Student::factory(7)->create();
 
@@ -267,6 +277,8 @@ class StudentTest extends TestCase
             ->component('dashboard')
             ->where('totalStudents', 7)
             ->has('recentStudents', 5)
+            ->has('courseDistribution')
+            ->has('yearDistribution')
         );
     }
 }

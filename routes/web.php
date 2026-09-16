@@ -15,6 +15,16 @@ Route::middleware(['auth'])->group(function () {
             'totalStudents' => Student::count(),
             'activeStudents' => Student::where('status', 'Active')->count(),
             'recentStudents' => Student::latest()->take(5)->get(),
+            'courseDistribution' => Student::query()
+                ->selectRaw('course, count(*) as count')
+                ->groupBy('course')
+                ->orderByDesc('count')
+                ->get(),
+            'yearDistribution' => Student::query()
+                ->selectRaw('year_level, count(*) as count')
+                ->groupBy('year_level')
+                ->orderBy('year_level')
+                ->get(),
         ]);
     })->name('dashboard');
 
